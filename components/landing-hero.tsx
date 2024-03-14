@@ -3,12 +3,21 @@
 import TypewriterComponent from "typewriter-effect";
 import Link from "next/link";
 import { useAuth } from "@clerk/nextjs";
-
+import { IoAccessibilityOutline } from "react-icons/io5";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 export const LandingHero = () => {
   const { isSignedIn } = useAuth();
+  const [isHovered, setIsHovered] = useState(false);
 
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
   return (
     <div className="text-white font-bold py-36 text-center space-y-5">
       <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl space-y-5 font-extrabold">
@@ -38,10 +47,16 @@ export const LandingHero = () => {
           </Button>
         </Link>
       </div>
-      <div>
+      <div className="absolute bottom-5 right-10">
         <Link href={isSignedIn ? "/dashboard" : "/sign-up"}>
-          <Button variant="premium" className="md:text-lg p-4 md:p-6 rounded-full font-semibold hover:scale-125 transition cursor-pointer">
-            Click Here for visually impaired users
+          <Button 
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className={`md:text-lg p-4 md:p-6 rounded-full font-semibold border border-black hover:scale-125 transition duration-300 cursor-pointer ${
+              isHovered ? 'bg-black text-white' : 'bg-white text-black'
+            }`}
+          >
+            <IoAccessibilityOutline />
           </Button>
         </Link>
       </div>
